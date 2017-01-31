@@ -19,7 +19,7 @@ from scipy.misc import imread, imresize, toimage
 
 
 ### Code added for preprocessing the images ###################################
-def crop_and_resize(image, crop=(55, 135), shape=(100, 100, 3)):
+def crop_and_resize(image, crop=(55, 120), shape=(100, 100, 3)):
     """
     Crop and Resize images to given shape.
     """
