@@ -1,6 +1,7 @@
 .DS_Store
 
 data/
+session_data/
 temp/
 logs/
 simulator

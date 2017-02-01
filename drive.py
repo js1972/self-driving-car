@@ -19,23 +19,27 @@ from scipy.misc import imread, imresize, toimage
 
 
 ### Code added for preprocessing the images ###################################
-def crop_and_resize(image, crop=(55, 120), shape=(100, 100, 3)):
+def crop_and_resize(image, y1, y2, x1, x2, shape=(100, 100, 3)):
     """
     Crop and Resize images to given shape.
     """
-    height, width, channels = shape
-    image_resized = np.empty([height, width, channels])
+    # height, width, channels = shape
+    # image_resized = np.empty([height, width, channels])
 
-    crop_top = crop[0]
-    crop_bottom = crop[1]
-    cropped_image = image[crop_top:crop_bottom, :, :]
+    cropped_image = image[y1:y2, x1:x2]
     image_resized = imresize(cropped_image, shape)
 
     return image_resized
 
+
 def preprocess(image):
-    image = crop_and_resize(image)
-    image = (image / 255. - .5).astype(np.float32) #normalize
+    # image size
+    im_y = image.shape[0]
+    im_x = image.shape[1]
+    trans_range = 50
+
+    image = crop_and_resize(image, 20, 140, 0 + trans_range, im_x - trans_range, shape=(66, 200, 3))
+    image = (image / 255. - .5).astype(np.float32)  # normalize
     return image
 ###############################################################################
 
@@ -62,7 +66,7 @@ def telemetry(sid, data):
     ####
     # Resize and pre-process the same as in the notebook that trains the model!
     ####
-    preprocessed_images = np.empty([len(transformed_image_array), 100, 100, 3])
+    preprocessed_images = np.empty([len(transformed_image_array), 66, 200, 3])
     for i, img in enumerate(transformed_image_array):
         preprocessed_images[i] = preprocess(img)
     ####
